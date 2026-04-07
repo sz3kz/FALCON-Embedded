@@ -1,25 +1,29 @@
 //#include <Arduino.h>
 //#include <Wire.h>
-
+//
 const int MY_OUTPUT_PIN = LED_BUILTIN;
+const int MY_INTERRUPT_PIN = 2;
 
-// "setup()" is a function ran at startup
-void setup() {
-  // make led take power to light up
-  pinMode(MY_OUTPUT_PIN, OUTPUT);
+// can change behind compiler's back - don't out-optimize 
+volatile bool buttonPressed = false;
+
+void buttonEvent() {
+  // switch buttonPressed value
+  buttonPressed = (digitalRead(MY_INTERRUPT_PIN) == LOW);
 }
 
-// "loop()" is a function ran after startup, continuously
+void setup() {
+  pinMode(MY_OUTPUT_PIN, OUTPUT);
+  pinMode(MY_INTERRUPT_PIN, INPUT_PULLUP);
+
+  // Register interrupt
+  attachInterrupt(digitalPinToInterrupt(MY_INTERRUPT_PIN), buttonEvent, CHANGE);
+}
+
 void loop() {
-    // light up the led
-    digitalWrite(MY_OUTPUT_PIN, HIGH);
-
-    //wait 2 seconds
-    delay(2000);
-
-    // light it down
+  if (buttonPressed) {
     digitalWrite(MY_OUTPUT_PIN, LOW);
-
-    //wait 2 seconds
-    delay(2000);
+  } else {
+    digitalWrite(MY_OUTPUT_PIN, HIGH);
+  }
 }
