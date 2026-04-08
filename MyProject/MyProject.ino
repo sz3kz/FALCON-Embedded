@@ -55,5 +55,8 @@ void loop() {
       Serial.println("Set pin to low.");
     }
   }
-  delay(1000);
+  if (buttonPressed){
+    Serial.print("X acceleration: ");
+    Serial.println(acceleration.acceleration.x);
+  }
 }
