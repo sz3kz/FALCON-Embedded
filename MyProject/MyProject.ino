@@ -36,7 +36,8 @@ void setup() {
 
 void loop() {
   static int state = LOW;
-  static long last = 0;
+  static long last_flickering = 0;
+  static long last_button = 0;
   unsigned long now = millis();
 
 
@@ -46,8 +47,8 @@ void loop() {
   mpu.getEvent(&acceleration, &gyroscopics, &temperature);
 
   if (abs(acceleration.acceleration.x) >= THRESHOLD &&
-      now - last >= 200){
-    last = now;
+      now - last_flickering >= 200){
+    last_flickering = now;
     if (state == LOW){
       digitalWrite(MY_OUTPUT_PIN, HIGH);
       state = HIGH;
@@ -59,7 +60,8 @@ void loop() {
       Serial.println("Set pin to low.");
     }
   }
-  if (buttonPressed){
+  if (buttonPressed && now - last_button >= 1000){
+    last_button = now;
     Serial.print("X acceleration: ");
     Serial.println(acceleration.acceleration.x);
   }
