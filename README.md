@@ -21,7 +21,5 @@ What I did is :
 * I opened the project in clion
 * I ran the simulation from the plugin
 
-Demo:
-<video src="demo/demo.mp4" width="100%" controls>
-  Your browser does not support the video tag.
-</video>
+
+https://github.com/user-attachments/assets/d16018e0-4134-43fa-842d-25afe09573a8
