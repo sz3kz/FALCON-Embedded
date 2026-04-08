@@ -6,6 +6,7 @@
 const int MY_OUTPUT_PIN = LED_BUILTIN;
 const int MY_INTERRUPT_PIN = 2;
 const int SERIAL_THROUGHPUT = 9600;
+const float THRESHOLD = 10;
 Adafruit_MPU6050 mpu;
 
 // can change behind compiler's back - don't out-optimize 
@@ -34,6 +35,7 @@ void setup() {
 }
 
 void loop() {
+  static int state = LOW;
 
   sensors_event_t acceleration;
   sensors_event_t gyroscopics;
@@ -41,9 +43,17 @@ void loop() {
   mpu.getEvent(&acceleration, &gyroscopics, &temperature);
   Serial.println(acceleration.acceleration.x);
 
-  if (buttonPressed) {
-    digitalWrite(MY_OUTPUT_PIN, LOW);
-  } else {
-    digitalWrite(MY_OUTPUT_PIN, HIGH);
+  if (acceleration.acceleration.x >= THRESHOLD){
+    if (state == LOW){
+      digitalWrite(MY_OUTPUT_PIN, HIGH);
+      state = HIGH;
+      Serial.println("Set pin to high.");
+    }
+    else if (state == HIGH){
+      digitalWrite(MY_OUTPUT_PIN, LOW);
+      state = LOW;
+      Serial.println("Set pin to low.");
+    }
   }
+  delay(1000);
 }
