@@ -52,12 +52,10 @@ void loop() {
     if (state == LOW){
       digitalWrite(MY_OUTPUT_PIN, HIGH);
       state = HIGH;
-      Serial.println("Set pin to high.");
     }
     else if (state == HIGH){
       digitalWrite(MY_OUTPUT_PIN, LOW);
       state = LOW;
-      Serial.println("Set pin to low.");
     }
   }
   else if (! (abs(acceleration.acceleration.x) >= THRESHOLD)){
