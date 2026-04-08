@@ -60,6 +60,11 @@ void loop() {
       Serial.println("Set pin to low.");
     }
   }
+  else if (! (abs(acceleration.acceleration.x) >= THRESHOLD)){
+    // Disable led staying red after acceleration goes back down
+    state = LOW;
+    digitalWrite(MY_OUTPUT_PIN, state);
+  }
   if (buttonPressed && now - last_button >= 1000){
     last_button = now;
     Serial.print("X acceleration: ");
