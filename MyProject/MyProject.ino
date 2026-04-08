@@ -34,6 +34,13 @@ void setup() {
 }
 
 void loop() {
+
+  sensors_event_t acceleration;
+  sensors_event_t gyroscopics;
+  sensors_event_t temperature;
+  mpu.getEvent(&acceleration, &gyroscopics, &temperature);
+  Serial.println(acceleration.acceleration.x);
+
   if (buttonPressed) {
     digitalWrite(MY_OUTPUT_PIN, LOW);
   } else {
