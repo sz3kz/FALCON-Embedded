@@ -44,7 +44,6 @@ void loop() {
   sensors_event_t gyroscopics;
   sensors_event_t temperature;
   mpu.getEvent(&acceleration, &gyroscopics, &temperature);
-  Serial.println(acceleration.acceleration.x);
 
   if (abs(acceleration.acceleration.x) >= THRESHOLD &&
       now - last >= 200){
