@@ -7,6 +7,8 @@ const int MY_OUTPUT_PIN = LED_BUILTIN;
 const int MY_INTERRUPT_PIN = 2;
 const int SERIAL_THROUGHPUT = 9600;
 const float THRESHOLD = 10;
+const int BUTTON_TIMEOUT = 1000;
+const int FLICKER_SPEED = 200;    // 5Hz
 Adafruit_MPU6050 mpu;
 
 // can change behind compiler's back - don't out-optimize 
@@ -47,7 +49,7 @@ void loop() {
   mpu.getEvent(&acceleration, &gyroscopics, &temperature);
 
   if (abs(acceleration.acceleration.x) >= THRESHOLD &&
-      now - last_flickering >= 200){
+      now - last_flickering >= FLICKER_SPEED){
     last_flickering = now;
     if (state == LOW){
       digitalWrite(MY_OUTPUT_PIN, HIGH);
@@ -63,7 +65,7 @@ void loop() {
     state = LOW;
     digitalWrite(MY_OUTPUT_PIN, state);
   }
-  if (buttonPressed && now - last_button >= 1000){
+  if (buttonPressed && now - last_button >= BUTTON_TIMEOUT){
     last_button = now;
     Serial.print("X acceleration: ");
     Serial.println(acceleration.acceleration.x);
