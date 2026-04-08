@@ -36,6 +36,9 @@ void setup() {
 
 void loop() {
   static int state = LOW;
+  static long last = 0;
+  unsigned long now = millis();
+
 
   sensors_event_t acceleration;
   sensors_event_t gyroscopics;
@@ -43,7 +46,9 @@ void loop() {
   mpu.getEvent(&acceleration, &gyroscopics, &temperature);
   Serial.println(acceleration.acceleration.x);
 
-  if (acceleration.acceleration.x >= THRESHOLD){
+  if (abs(acceleration.acceleration.x) >= THRESHOLD &&
+      now - last >= 200){
+    last = now;
     if (state == LOW){
       digitalWrite(MY_OUTPUT_PIN, HIGH);
       state = HIGH;
