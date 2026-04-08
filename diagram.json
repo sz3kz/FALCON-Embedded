@@ -1,7 +1,16 @@
 {
   "version": 1,
-  "author": "sz3kz",
+  "author": "sz3kz + Aunt Gemmy",
   "editor": "wokwi",
-  "parts": [ { "id": "uno", "type": "wokwi-arduino-uno" } ],
-  "connections": []
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0.6, "left": -0.6, "attrs": {} },
+    { "type": "wokwi-mpu6050", "id": "imu1", "top": 263.02, "left": 2.32, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:5V", "imu1:VCC", "red", [ "v0" ] ],
+    [ "uno:GND.2", "imu1:GND", "black", [ "v0" ] ],
+    [ "imu1:SCL", "uno:A5", "green", [ "v0" ] ],
+    [ "imu1:SDA", "uno:A4", "blue", [ "v0" ] ]
+  ],
+  "dependencies": {}
 }
